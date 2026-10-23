@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update User</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Modify User Record</h2>
+        <form id="updateForm">
+            <input type="text" name="name" id="name" required>
+            <input type="email" name="email" id="email" required>
+            <button type="submit">Update Record</button>
+            <a href="index.html" class="btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+    <script src="db.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('id');
+
+        if (!userId) {
+            window.location.href = 'index.html';
+        }
+
+        const user = getUserById(userId);
+        if (!user) {
+            window.location.href = 'index.html';
+        } else {
+            document.getElementById('name').value = user.name;
+            document.getElementById('email').value = user.email;
+        }
+
+        document.getElementById('updateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            if (name.trim() && email.trim()) {
+                updateUser(userId, name, email);
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
